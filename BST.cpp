@@ -98,7 +98,7 @@ void deleteNode(TreeNode * root, int num){
         return ;
     }
     if(root->lchild!=nullptr&&root->rchild!=nullptr){
-//        ÓÒ×ÓÊ÷×îÐ¡µãÌæ»»
+//        å³å­æ ‘æœ€å°ç‚¹æ›¿æ¢
         TreeNode * minPtr = findMin(root->rchild);
         root->val = minPtr->val;
         deleteNode(root->rchild,root->val);
