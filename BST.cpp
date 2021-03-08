@@ -46,10 +46,76 @@ TreeNode* buildBST(vector<int> & arr){
     }
     return root;
 }
+TreeNode * findMin(TreeNode * root){
+    if(root->lchild==nullptr){
+        return root;
+    }
+    return findMin(root->lchild);
+}
+TreeNode * pre = nullptr;
+void deleteNode(TreeNode * root, int num){
+    cout<<"cmp : "<<num<<','<<root->val<<endl;
+    if(root==nullptr) return;
+    if(num!=root->val){
+        if(root->val > num){
+            pre = root;
+            deleteNode(root->lchild,num);
+            return;
+        }
 
+        if(root->val < num){
+            pre = root;
+            deleteNode(root->rchild,num);
+            return;
+        }
+
+    }
+    cout<<"deleting "<<num<<endl;
+    cout<<"node info "<<(root->lchild? root->lchild->val : -1)<<"  "<<(root->rchild? root->rchild->val:-1)<<endl;
+    if(root->lchild==nullptr&&root->rchild==nullptr){
+        if(pre->lchild==root)pre->lchild=nullptr;
+        if(pre->rchild==root)pre->rchild=nullptr;
+        delete root;
+        root = nullptr;
+        cout<<"root address "<<root<<endl;
+        return ;
+    }
+    if(root->rchild==nullptr){
+        root->val = root->lchild->val;
+        root->rchild = root->lchild->rchild;
+        TreeNode * delPtr = root->lchild;
+        root->lchild = root->lchild->lchild;
+        delete delPtr;
+        cout<<"root info"<<(root->lchild? root->lchild->val : -1)<<"  "<<(root->rchild? root->rchild->val:-1)<<endl;
+        return ;
+    }
+    if(root->lchild==nullptr){
+        root->val = root->rchild->val;
+        root->lchild = root->rchild->lchild;
+        TreeNode * delPtr = root->rchild;
+        root->rchild= root->rchild->rchild;
+        delete delPtr;
+        return ;
+    }
+    if(root->lchild!=nullptr&&root->rchild!=nullptr){
+//        右子树最小点替换
+        TreeNode * minPtr = findMin(root->rchild);
+        root->val = minPtr->val;
+        deleteNode(root->rchild,root->val);
+        return ;
+    }
+
+
+}
 int main(){
-    vector<int> nums1 = {1000,999,123,45,56,67,3,0,22,87};
+    vector<int> nums1 = {53,17,78,9,45,65,87,23,91};
     TreeNode * root = buildBST(nums1);
     printBST(root);
+    cout<<endl<<"-----------"<<endl;
+
+    deleteNode(root,53);
+    printBST(root);
+    cout<<endl<<root->val<<endl;
+
     return 0;
 }
