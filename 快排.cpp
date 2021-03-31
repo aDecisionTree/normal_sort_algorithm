@@ -45,36 +45,6 @@ void qSort(vector<int> & arr,int low,int high){
         qSort(arr,mid+1,high);
     }
 }
-int qPartition2(vector<int> & arr,int low,int high){
-    cout<<"range: "<<low<<' '<<high<<endl;
-    int key = arr[high];
-    int keyIndex = high;
-    int flag = 0;
-
-    while(low<high){
-//      要确保后面的都比key大那么就需要先找大的数交换到后面去。
-//      从前找大的数
-        while(low<high && arr[low]<key)low++;
-//      从后找小的数
-        while(low<high && arr[high]>key)high--;
-        printArr(arr);
-        cout<<"Swap: "<<arr[low]<<' '<<arr[high]<<" index: "<<low<<' '<<high<<endl;
-        swap(arr[high],arr[low]);
-        printArr(arr);
-//        flag++;
-//        if(flag>8)break;
-    }
-    return low;
-}
-void qSort2(vector<int> & arr,int low,int high){
-    if(low<high){
-        int mid = qPartition2(arr,low,high);
-
-        qSort2(arr,low,mid-1);
-//        return;
-        qSort2(arr,mid+1,high);
-    }
-}
 int main(){
     vector<int> nums1 = {7,6,5,4,3,2,1};
     printArr(nums1);
